@@ -10,6 +10,7 @@ $password = "";
 $confirmPassword = "";
 $email = "";
 $name = "";
+$billing_address = "";
 
 
 if($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -19,12 +20,12 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
     $password = $_POST["password"];
     $name = $_POST["name"];
 
-    $sql = "INSERT INTO curator(curator_login_name, curator_email, curator_password, curator_first_name, curator_last_name) VALUES (?, ?, ?, ?, ?)";
+
+    $sql = "INSERT INTO visitor(username, password, email, name, billing_address) VALUES (?, ?, ?, ?, ?)";
     $stmt = mysqli_prepare($db, $sql);
-    mysqli_stmt_bind_param($stmt, "sssss", $username, $email, $password, $firstName, $lastName);
+    mysqli_stmt_bind_param($stmt, "sssss", $username, $email, $password, $username, $billing_address);
     mysqli_stmt_execute($stmt);
-    header("location: index.php");
-    
+    header("location: index.php");    
 }
 ?>
 
@@ -70,7 +71,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
         <nav class="navbar navbar-inverse bg-primary navbar-fixed-top">
             <div class="container-fluid">
                 <div class="navbar-header">
-                    <h4 class="navbar-text">Video Game Digital Distribution System</h4>
+                    <h4 class="navbar-text">Zoo Database</h4>
 
                 </div>
                 <a href="index.php">Home</a>
@@ -81,20 +82,21 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
         <div id="centerwrapper">
             <div id="centerdiv">
                 <br><br>
-                <h2>Curator Sign Up</h2>
+                <h2>Visitor Sign Up</h2>
                 
                 <p>Choose Your Role: 
                 <form action="">
                     <input type="radio" name="user_type" value="user" onclick = "document.location.href='signupUser.php'"> User
-                    <input type="radio" name="user_type" value="curator" checked="checked"> Curator
-                    <input type="radio" name="user_type" value="publisher" onclick = "document.location.href='signupPublisher.php'"> Publisher
-                    <input type="radio" name="user_type" value="developer"onclick = "document.location.href='signupDeveloper.php'"> Developer
-                    <input type="radio" name="user_type" value="tester"onclick = "document.location.href='signupTester.php'"> Tester
+                    <input type="radio" name="user_type" value="visitor" checked="checked"> Visitor
+                    <input type="radio" name="user_type" value="veterinarian" onclick = "document.location.href='signupVeterinarian.php'"> Veterinarian
+                    <input type="radio" name="user_type" value="keeper"onclick = "document.location.href='signupKeeper.php'"> Keeper
+                    <input type="radio" name="user_type" value="coordinator"onclick = "document.location.href='signupCoordinator.php'"> Coordinator
+                    <input type="radio" name="user_type" value="advertiser"onclick = "document.location.href='signupAdvertiser.php'"> Advertiser
                 </form>
                 <form id="signupForm" action="" method="post">
                     <div class="form-group">
-                        <label>Curator Login Name</label>
-                        <input type="text" name="nick_name" class="form-control" id="nick_name">
+                        <label>Visitor Login Name</label>
+                        <input type="text" name="username" class="form-control" id="username">
                     </div>
 
                     <div class="form-group">
@@ -113,13 +115,13 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
                     </div>
 
                     <div class="form-group">
-                        <label>First Name</label>
-                        <input type="text" name="firstname" class="form-control" id="firstname">
+                        <label>Full Name</label>
+                        <input type="text" name="name" class="form-control" id="name">
                     </div>
 
                     <div class="form-group">
-                        <label>Last Name</label>
-                        <input type="text" name="lastname" class="form-control" id="lastname">
+                        <label>Billing Address</label>
+                        <input type="text" name="billing_address" class="form-control" id="billing_address">
                     </div>
 
                     <div class="form-group">
@@ -133,14 +135,14 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
 
     <script type="text/javascript">
         function checkEmptyAndLogin() {
-            var usernameVal = document.getElementById("nick_name").value;
+            var usernameVal = document.getElementById("username").value;
             var passwordVal = document.getElementById("password").value;
             var confirmPasswordVal = document.getElementById("confirm_password").value;
             var emailVal = document.getElementById("email").value;
-            var firstnameVal = document.getElementById("firstname").value;
-            var lastnameVal = document.getElementById("lastname").value;
+            var nameVal = document.getElementById("name").value;
+            var billing_addressVal = document.getElementById("billing_address").value;
             
-            if (usernameVal === "" || passwordVal === "" || confirmPasswordVal === "" || emailVal === "" || firstnameVal === "" || lastnameVal === "") {
+            if (usernameVal === "" || passwordVal === "" || confirmPasswordVal === "" || emailVal === "" || nameVal === "" || billing_addressVal === "") {
                 alert("Make sure to fill all fields");
             }
             else if (passwordVal != confirmPasswordVal) {
